@@ -29,7 +29,6 @@ import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useUsers } from "../hooks/userHook"
 import { useRouter } from "next/navigation"
-import { Skeleton } from "@/components/ui/skeleton"
 import ErrorAlert from "@/components/ErrorAlert"
 import Loading from "@/components/Loading"
 
