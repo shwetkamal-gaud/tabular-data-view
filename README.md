@@ -20,14 +20,11 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## Introduction of Project
 
-To learn more about Next.js, take a look at the following resources:
+This User Management Table displays user data, including Email, Name, and Phone Number. It allows users to perform global searches across all column values, filter the Email column, and sort the Email and Name columns in ascending or descending order. Additionally, the table supports paginated data for better usability.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+I used ShadCN for the UI, TanStack Table for table management, and TanStack Query for data fetching with the useQuery hook.
 
 ## Deploy on Vercel
 
