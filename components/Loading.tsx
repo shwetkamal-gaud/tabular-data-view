@@ -3,9 +3,9 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Loading() {
-    const tableBody = Array(10).fill(0).map((_) => {
+    const tableBody = Array(10).fill(0).map((item: number) => {
         return (
-            <TableRow>
+            <TableRow key={item}>
                 <TableCell>
                     <Skeleton className="h-4 w-full" />
                 </TableCell>
