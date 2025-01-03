@@ -1,6 +1,6 @@
 
 
-import { User, columns } from "./columns"
+import { columns } from "./columns"
 import { DataTable } from "./data-table"
 
 

@@ -9,7 +9,6 @@ import {
     getPaginationRowModel,
     getFilteredRowModel,
     getSortedRowModel,
-    GlobalFiltering,
     useReactTable,
 } from "@tanstack/react-table"
 
@@ -86,16 +85,6 @@ export function DataTable<TData, TValue>({
         },
         onGlobalFilterChange: setGlobalFilter
     })
-    // if (error) {
-    //     return (
-    //         <div className="flex  mx-auto">
-    //             <Alert variant="destructive">
-    //                 <AlertTitle>Error</AlertTitle>
-    //                 <AlertDescription>{`${error}`}</AlertDescription>
-    //             </Alert>
-    //         </div>
-    //     )
-    // }
 
     return (
         <div>
