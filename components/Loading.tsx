@@ -3,7 +3,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@
 import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Loading() {
-    const tableBody = Array(10).fill(0).map((item: number) => {
+    const tableBody = Array(10).fill(0).map((_) => {
         return (
             <TableRow>
                 <TableCell>
