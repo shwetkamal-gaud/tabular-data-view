@@ -7,11 +7,9 @@ import { ArrowUpDown } from "lucide-react"
 
 
 export type User = {
-    id: string
     name: string
     email: string
     phone: string
-    
 }
 export const columns: ColumnDef<User>[] = [
     {
@@ -41,11 +39,11 @@ export const columns: ColumnDef<User>[] = [
                 </Button>
             )
         },
-    
+
     },
     {
         accessorKey: "phone",
         header: "Phone Number",
     },
-    
+
 ]

@@ -56,10 +56,11 @@ export function DataTable<TData, TValue>({
         setPage(parseInt(searchParams.get('page') || '1', 10))
     }, [searchParams])
 
-    const { data, isLoading, error } = useUsers(page);
+    const { data, isLoading, error, isError } = useUsers(page);
     const handlePageChange = (newPage: number) => {
         router.push(`/users?page=${newPage}`);
     };
+
     const fuzzyFilter: FilterFn<RowData> = (rows, columnId, filterValue) => {
         const cellValue = rows.getValue(columnId);
         return (
@@ -91,100 +92,102 @@ export function DataTable<TData, TValue>({
 
     return (
         <div>
-            {error && <ErrorAlert error={error} />}
-            {
-                isLoading && !error ? (
-                    <Loading />
-                )
-                    :
-                    <>
-                        <div className="flex items-center py-4">
-                            <Input
-                                placeholder="Search ..."
-                                value={globalFilter}
-                                onChange={(event) =>
-                                    table.setGlobalFilter(event.target.value)
-                                }
-                                className="max-w-sm"
-                            />
-                        </div>
-                        <div className="rounded-md border">
+            {isError && <ErrorAlert error={error} />}
 
-                            <Table>
-                                <TableHeader className="">
-                                    {table.getHeaderGroups().map((headerGroup) => (
-                                        <TableRow className="" key={headerGroup.id}>
-                                            {headerGroup.headers.map((header) => {
+            {isLoading && !isError ? (
+                <Loading />
+            ) :
+                (<>
+                    <div className="flex items-center py-4">
+                        <Input
+                            placeholder="Search ..."
+                            value={globalFilter}
+                            onChange={(event) =>
+                                table.setGlobalFilter(event.target.value)
+                            }
+                            className="max-w-sm"
+                        />
+                    </div>
+                    <div className="rounded-md border">
+                        <Table>
+                            <TableHeader className="">
+                                {table.getHeaderGroups().map((headerGroup) => (
+                                    <TableRow className="" key={headerGroup.id}>
+                                        {headerGroup.headers.map((header) => {
 
-                                                return (
-                                                    <TableHead key={header.id}>
-                                                        {header.isPlaceholder
-                                                            ? null
-                                                            : flexRender(
-                                                                header.column.columnDef.header,
-                                                                header.getContext()
-                                                            )}
-                                                        {header.getContext().column.id === "email" &&
-                                                            <Input
-                                                                placeholder="Search Email..."
-                                                                value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-                                                                onChange={(event) =>
-                                                                    table.getColumn("email")?.setFilterValue(event.target.value)
-                                                                }
-                                                                className="max-w-sm"
-                                                            />
-                                                        }
-                                                    </TableHead>
-                                                )
-                                            })}
-                                        </TableRow>
-                                    ))}
-                                </TableHeader>
-                                <TableBody>
-                                    {table?.getRowModel().rows?.length ? (
-                                        table.getRowModel().rows.map((row) => (
-                                            <TableRow
-                                                key={row.id}
-                                                data-state={row.getIsSelected() && "selected"}
-                                            >
+                                            return (
+                                                <TableHead key={header.id}>
+                                                    {header.isPlaceholder
+                                                        ? null
+                                                        : flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )}
+                                                    {header.getContext().column.id === "email" &&
+                                                        <Input
+                                                            placeholder="Search Email..."
+                                                            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                                                            onChange={(event) =>
+                                                                table.getColumn("email")?.setFilterValue(event.target.value)
+                                                            }
+                                                            className="max-w-sm"
+                                                        />
+                                                    }
+                                                </TableHead>
+                                            )
+                                        })}
+                                    </TableRow>
+                                ))}
+                            </TableHeader>
+                            <TableBody>
+                                {table?.getRowModel().rows?.length ? (
+                                    table.getRowModel().rows.map((row) => (
+                                        <TableRow
+                                            key={row.id}
+                                            data-state={row.getIsSelected() && "selected"}
+                                        >
                                                 {row.getVisibleCells().map((cell) => (
-                                                    <TableCell key={cell.id}>
+                                                    <TableCell className="" key={cell.id}>
                                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                                     </TableCell>
                                                 ))}
-                                            </TableRow>
-                                        ))
-                                    ) : (
-                                        <TableRow>
-                                            <TableCell colSpan={columns.length} className="h-24 text-center">
-                                                No results.
-                                            </TableCell>
                                         </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={columns.length} className="h-24 text-center">
+                                            No results.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
 
-                        </div>
-                        <div className="flex items-center justify-end space-x-2 py-4">
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handlePageChange(page - 1)}
-                                disabled={page <= 1}
-                            >
-                                Previous
-                            </Button>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handlePageChange(page + 1)}
-                                disabled={!data?.length}
-                            >
-                                Next
-                            </Button>
-                        </div>
-                    </>
-            }
+
+
+
+                    </div>
+                    <div className="flex items-center justify-end space-x-2 py-4">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handlePageChange(page - 1)}
+                            disabled={page <= 1}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handlePageChange(page + 1)}
+                            disabled={!data?.length}
+                        >
+                            Next
+                        </Button>
+                    </div>
+
+                </>)}
+
 
         </div >
     )
