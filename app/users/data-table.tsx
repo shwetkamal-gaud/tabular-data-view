@@ -30,7 +30,9 @@ import { useSearchParams } from "next/navigation"
 import { useUsers } from "../hooks/userHook"
 import { useRouter } from "next/navigation"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import ErrorAlert from "@/components/ErrorAlert"
+import Loading from "@/components/Loading"
+
 
 
 interface DataTableProps<TData, TValue> {
@@ -90,22 +92,10 @@ export function DataTable<TData, TValue>({
 
     return (
         <div>
-            {error && <div className="flex  mx-auto">
-                <Alert variant="destructive">
-                    <AlertTitle>Error</AlertTitle>
-                    <AlertDescription>{`${error}`}</AlertDescription>
-                </Alert>
-            </div>}
+            {error && <ErrorAlert error={error} />}
             {
                 isLoading && !error ? (
-                    <div className="flex flex-col justify-center space-y-2 items-center">
-                        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
-                        <div className="space-y-2">
-                            <Skeleton className="h-4 w-[250px]" />
-                            <Skeleton className="h-4 w-[200px]" />
-                        </div>
-
-                    </div>
+                    <Loading />
                 )
                     :
                     <>
