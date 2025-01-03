@@ -10,6 +10,9 @@ import {
     getFilteredRowModel,
     getSortedRowModel,
     useReactTable,
+    FilterFn,
+    RowData,
+    Row,
 } from "@tanstack/react-table"
 
 import {
@@ -45,24 +48,24 @@ export function DataTable<TData, TValue>({
         []
     )
     const router = useRouter()
-    const [globalFilter, setGlobalFilter] = useState<any>([])
+    const [globalFilter, setGlobalFilter] = useState([])
     const searchParams = useSearchParams();
 
-    const [page, setPage] = useState<any>()
+    const [page, setPage] = useState(0)
     useEffect(() => {
         setPage(parseInt(searchParams.get('page') || '1', 10))
     }, [searchParams])
+
     const { data, isLoading, error } = useUsers(page);
-
-
     const handlePageChange = (newPage: number) => {
         router.push(`/users?page=${newPage}`);
     };
-    const fuzzyFilter = (rows: any, columnId: any, filterValue: any) => {
-        return rows.filter((row: any) => {
-            const cellValue = row.getValue(columnId)
-            return cellValue?.toLowerCase().includes(filterValue.toLowerCase())
-        })
+    const fuzzyFilter: FilterFn<RowData> = (rows, columnId, filterValue) => {
+        const cellValue = rows.getValue(columnId);
+        return (
+            typeof cellValue === "string" &&
+            cellValue.toLowerCase().includes(filterValue.toLowerCase())
+        );
     }
 
     const table = useReactTable({
